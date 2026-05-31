@@ -51,8 +51,8 @@ RUN git clone --depth=1 --branch ${REPO_BRANCH} ${REPO_URL} /home/coder/workspac
 
 # Pre-restore dependencies (baked into image layer → fast startup)
 RUN cd /home/coder/workspace && \
-    dotnet restore DotNet/LruCache.sln && \
-    mvn dependency:resolve -f Java/pom.xml -q
+    dotnet restore lrucache/DotNet/LruCache.sln && \
+    mvn dependency:resolve -f lrucache/Java/pom.xml -q
 
 # ── VS Code extensions (installed at image build time) ────────────────────────
 USER coder
