@@ -43,7 +43,7 @@ ENV DOTNET_NOLOGO=1
 
 # ── Pre-warm NuGet & Maven caches (speeds up first build inside session) ───────
 # Clone the repo during build so the image already has the code
-ARG REPO_URL=https://github.com/hiringspaces-public/lrucache.git
+ARG REPO_URL=https://github.com/hiringspaces-public/lrucache-aci.git
 ARG REPO_BRANCH=main
 
 RUN git clone --depth=1 --branch ${REPO_BRANCH} ${REPO_URL} /home/coder/workspace && \

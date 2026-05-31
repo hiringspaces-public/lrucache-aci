@@ -1,0 +1,83 @@
+{
+  "folders": [
+    {
+      "name": "LRU Cache — Interview",
+      "path": "."
+    }
+  ],
+  "settings": {
+    // ── Java ──────────────────────────────────────────────────────────────────
+    "java.home": "/usr/lib/jvm/temurin-21-amd64",
+    "java.compile.nullAnalysis.mode": "automatic",
+    "java.test.defaultConfig": "Maven",
+    "maven.executable.path": "/usr/bin/mvn",
+
+    // ── .NET / C# ─────────────────────────────────────────────────────────────
+    "dotnet.defaultSolution": "DotNet/LRUCache.sln",
+    "omnisharp.enableRoslynAnalyzers": true,
+    "omnisharp.enableEditorConfigSupport": true,
+
+    // ── Editor UX ─────────────────────────────────────────────────────────────
+    "editor.fontSize": 14,
+    "editor.tabSize": 4,
+    "editor.formatOnSave": true,
+    "editor.minimap.enabled": false,
+    "workbench.colorTheme": "Default Dark+",
+    "workbench.startupEditor": "none",
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 1000,
+
+    // ── Terminal ──────────────────────────────────────────────────────────────
+    "terminal.integrated.defaultProfile.linux": "bash",
+    "terminal.integrated.fontSize": 13,
+
+    // ── Explorer ──────────────────────────────────────────────────────────────
+    "explorer.confirmDelete": false,
+    "explorer.confirmDragAndDrop": false,
+
+    // ── Draw.io ───────────────────────────────────────────────────────────────
+    "hediet.vscode-drawio.theme": "Kennedy"
+  },
+  "extensions": {
+    "recommendations": [
+      "vscjava.vscode-java-pack",
+      "ms-dotnettools.csharp",
+      "ms-dotnettools.csdevkit",
+      "eamodio.gitlens",
+      "hediet.vscode-drawio"
+    ]
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Java: Build",
+        "type": "shell",
+        "command": "mvn install -f Java/pom.xml",
+        "group": "build",
+        "presentation": { "reveal": "always", "panel": "shared" }
+      },
+      {
+        "label": "Java: Test",
+        "type": "shell",
+        "command": "mvn test -f Java/pom.xml",
+        "group": "test",
+        "presentation": { "reveal": "always", "panel": "shared" }
+      },
+      {
+        "label": "DotNet: Build",
+        "type": "shell",
+        "command": "dotnet build DotNet/LRUCache.sln",
+        "group": "build",
+        "presentation": { "reveal": "always", "panel": "shared" }
+      },
+      {
+        "label": "DotNet: Test",
+        "type": "shell",
+        "command": "dotnet test DotNet/LRUCache.sln",
+        "group": "test",
+        "presentation": { "reveal": "always", "panel": "shared" }
+      }
+    ]
+  }
+}

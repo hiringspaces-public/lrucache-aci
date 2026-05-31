@@ -163,3 +163,43 @@ A 2 vCPU / 4 GB instance in East US costs ~**$0.003/min** = ~$0.18 for a 60-minu
 - No shared state between candidates.
 - ACR `latest` tag always points to the most recent passing build.
 - To support multiple problem sets, build separate images and pick by `IMAGE_TAG` in the provision call.
+
+
+# 1. Create a service principal
+az ad sp create-for-rbac --name "hiringspaces-github-actions" --skip-assignment
+
+# 2. Note the appId (CLIENT_ID) and tenant (TENANT_ID) from output
+# 3. Get your subscription ID
+az account show --query id -o tsv
+
+# 4. Assign AcrPush role (scoped to the registry only — least privilege)
+az role assignment create \
+  --assignee <appId> \
+  --role AcrPush \
+  --scope $(az acr show -n hiringspacesacr --query id -o tsv)
+
+# 5. Add federated credential so GitHub can authenticate
+contact [ ~ ]$ az ad app federated-credential create \
+  --id e31b2e4e-e8fb-4dca-a54d-125db305b545 \
+  --parameters '{
+    "name": "github-actions",
+    "issuer": "https://token.actions.githubusercontent.com",
+    "subject": "repo:hiringspaces-public/lrucache-aci:ref:refs/heads/main",
+    "audiences": ["api://AzureADTokenExchange"]
+  }'
+
+{
+  "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#applications('b8c57547-24c7-43e1-9a83-aef6cd92a073')/federatedIdentityCredentials/$entity",
+  "audiences": [
+    "api://AzureADTokenExchange"
+  ],
+  "description": null,
+  "id": "ba888060-eeb7-4d75-bcb5-6af14a5b6713",
+  "issuer": "https://token.actions.githubusercontent.com",
+  "name": "github-actions",
+  "subject": "repo:hiringspaces-public/lrucache-aci:ref:refs/heads/main"
+}
+
+          client-id: e31b2e4e-e8fb-4dca-a54d-125db305b545 
+          tenant-id: 65d86ba7-383e-47c3-b628-1269775512dd
+          subscription-id: c674247f-9138-4470-9583-4f10b8076c8f

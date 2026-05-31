@@ -1,0 +1,45 @@
+name: Build & Push to ACR
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Dockerfile'
+      - 'config.yaml'
+      - 'workspace.code-workspace'
+      - 'scripts/**'
+      - 'Java/**'
+      - 'DotNet/**'
+      - '.github/workflows/build-acr.yml'
+  workflow_dispatch:   # allow manual trigger
+
+env:
+  ACR_NAME:       hiringspacesacr
+  IMAGE_NAME:     lrucache-env
+  RESOURCE_GROUP: Hiringspaces
+
+jobs:
+  build-push:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write   # ← required for OIDC
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure login (OIDC — no password)
+        uses: azure/login@v2
+        with:
+          client-id: e31b2e4e-e8fb-4dca-a54d-125db305b545 
+          tenant-id: 65d86ba7-383e-47c3-b628-1269775512dd
+          subscription-id: c674247f-9138-4470-9583-4f10b8076c8f
+
+      - name: Log in to ACR
+        run: az acr login --name hiringspacesacr
+
+      - name: Build & push
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          tags: hiringspacesacr.azurecr.io/lrucache-env:latest
