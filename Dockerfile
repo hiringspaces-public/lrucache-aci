@@ -61,11 +61,7 @@ RUN java -version || true
 RUN echo $JAVA_HOME
 RUN which java || true
 RUN mvn -version || true
-RUN echo $JAVA_HOME && \
-    ls -ld $JAVA_HOME && \
-    ls -l $JAVA_HOME/bin/java
-RUN export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java)))) && \
-    echo $JAVA_HOME
+RUN readlink -f $(which java)
 # Pre-restore dependencies (baked into image layer → fast startup)
 RUN cd /home/coder/workspace && \
     dotnet restore ./DotNet/LruCache.sln && \
