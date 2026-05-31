@@ -59,8 +59,8 @@ RUN cd /home/coder/workspace && \
 
 # Pre-restore dependencies (baked into image layer → fast startup)
 RUN cd /home/coder/workspace && \
-    dotnet restore lrucache/DotNet/LruCache.sln && \
-    mvn dependency:resolve -f lrucache/Java/pom.xml -q
+    dotnet restore ./DotNet/LruCache.sln && \
+    mvn dependency:resolve -f ./Java/pom.xml -q
 
 # ── VS Code extensions (installed at image build time) ────────────────────────
 USER coder
