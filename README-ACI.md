@@ -203,3 +203,10 @@ contact [ ~ ]$ az ad app federated-credential create \
           client-id: e31b2e4e-e8fb-4dca-a54d-125db305b545 
           tenant-id: 65d86ba7-383e-47c3-b628-1269775512dd
           subscription-id: c674247f-9138-4470-9583-4f10b8076c8f
+
+
+ run: |
+          TOKEN=$(az acr get-login-password --subscription c674247f-9138-4470-9583-4f10b8076c8f)
+          echo "$TOKEN" | docker login hiringspacesacr-bdandkgvhgaghjeg.azurecr.io \
+            --username 00000000-0000-0000-0000-000000000000 \
+            --password-stdin
