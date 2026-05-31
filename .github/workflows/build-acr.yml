@@ -14,7 +14,7 @@ on:
   workflow_dispatch:   # allow manual trigger
 
 env:
-  ACR_NAME:       hiringspacesacr
+  ACR_NAME:  hiringspacesacr-bdandkgvhgaghjeg
   IMAGE_NAME:     lrucache-env
   RESOURCE_GROUP: Hiringspaces
 
@@ -42,4 +42,4 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: hiringspacesacr.azurecr.io/lrucache-env:latest
+          tags: hiringspacesacr-bdandkgvhgaghjeg.azurecr.io/lrucache-env:latest
