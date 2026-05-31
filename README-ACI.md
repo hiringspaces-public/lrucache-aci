@@ -210,3 +210,11 @@ contact [ ~ ]$ az ad app federated-credential create \
           echo "$TOKEN" | docker login hiringspacesacr-bdandkgvhgaghjeg.azurecr.io \
             --username 00000000-0000-0000-0000-000000000000 \
             --password-stdin
+
+
+    az role assignment create \
+  --assignee <CLIENT_ID> \
+  --role Reader \
+  --scope "$ACR_ID"
+
+  needed acrpush and reader permission
