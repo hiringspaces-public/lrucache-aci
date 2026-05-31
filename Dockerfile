@@ -49,6 +49,14 @@ ARG REPO_BRANCH=main
 RUN git clone --depth=1 --branch ${REPO_BRANCH} ${REPO_URL} /home/coder/workspace && \
     chown -R coder:coder /home/coder/workspace
 
+RUN cd /home/coder/workspace && \
+    echo "=== Top Level ===" && \
+    ls -la && \
+    echo "=== lrucache ===" && \
+    ls -la lrucache || true && \
+    echo "=== SLN Files ===" && \
+    find . -name "*.sln"
+
 # Pre-restore dependencies (baked into image layer → fast startup)
 RUN cd /home/coder/workspace && \
     dotnet restore lrucache/DotNet/LruCache.sln && \
