@@ -61,10 +61,9 @@ RUN java -version || true
 RUN echo $JAVA_HOME
 RUN which java || true
 RUN mvn -version || true
-
-RUN apt-get update && \
-    apt-get install -y openjdk-21-jdk maven
-
+RUN echo $JAVA_HOME && \
+    ls -ld $JAVA_HOME && \
+    ls -l $JAVA_HOME/bin/java
 RUN export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java)))) && \
     echo $JAVA_HOME
 # Pre-restore dependencies (baked into image layer → fast startup)
