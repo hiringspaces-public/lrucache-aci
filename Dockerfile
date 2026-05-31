@@ -57,15 +57,11 @@ RUN cd /home/coder/workspace && \
     echo "=== SLN Files ===" && \
     find . -name "*.sln"
 
-RUN java -version || true
-RUN echo $JAVA_HOME
-RUN which java || true
-RUN mvn -version || true
-RUN readlink -f $(which java)
-# Pre-restore dependencies (baked into image layer → fast startup)
-RUN cd /home/coder/workspace && \
+RUN export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java)))) && \
+    cd /home/coder/workspace && \
     dotnet restore ./DotNet/LruCache.sln && \
     mvn dependency:resolve -f ./Java/pom.xml -q
+
 
 # ── VS Code extensions (installed at image build time) ────────────────────────
 USER coder
