@@ -14,7 +14,7 @@ on:
   workflow_dispatch:   # allow manual trigger
 
 env:
-  ACR_NAME:  hiringspacesacr-bdandkgvhgaghjeg
+  ACR_NAME:  hiringspacesacr
   IMAGE_NAME:     lrucache-env
   RESOURCE_GROUP: Hiringspaces
 
@@ -36,7 +36,7 @@ jobs:
           subscription-id: c674247f-9138-4470-9583-4f10b8076c8f
 
       - name: Log in to ACR
-        run: az acr login --name hiringspacesacr-bdandkgvhgaghjeg
+        run: az acr login --name hiringspacesacr
 
       - name: Build & push
         uses: docker/build-push-action@v5
