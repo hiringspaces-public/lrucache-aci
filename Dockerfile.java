@@ -3,7 +3,7 @@ FROM codercom/code-server:4.89.1
 USER root
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    git curl wget gnupg maven ca-certificates \
+    curl wget git unzip zip gnupg2 ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
 # Java 21
