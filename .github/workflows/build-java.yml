@@ -33,5 +33,7 @@ jobs:
       - name: Build & push
         uses: docker/build-push-action@v5
         with:
+          context: .
+          file: Dockerfile.java
           push: true
           tags: hiringspacesacr-bdandkgvhgaghjeg.azurecr.io/lrucache-java:latest
