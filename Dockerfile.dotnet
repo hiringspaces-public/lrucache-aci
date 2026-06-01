@@ -3,7 +3,8 @@ FROM codercom/code-server:4.89.1
 USER root
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl wget git unzip zip gnupg2 ca-certificates \
+    git curl wget ca-certificates \
+    libicu-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # .NET 8
