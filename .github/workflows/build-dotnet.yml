@@ -1,22 +1,14 @@
-name: Build & Push to ACR
+name: Build DotNet Image
 
 on:
   push:
     branches: [main]
     paths:
-      - 'Dockerfile'
-      - 'config.yaml'
-      - 'workspace.code-workspace'
+      - 'Dockerfile.dotnet'
       - 'scripts/**'
-      - 'Java/**'
       - 'DotNet/**'
-      - '.github/workflows/build-acr.yml'
-  workflow_dispatch:   # allow manual trigger
-
-env:
-  ACR_NAME:  hiringspacesacr
-  IMAGE_NAME:     lrucache-env
-  RESOURCE_GROUP: Hiringspaces
+      - '.github/workflows/build-dotnet.yml'
+  workflow_dispatch:
 
 jobs:
   build-push:
@@ -42,4 +34,4 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: hiringspacesacr-bdandkgvhgaghjeg.azurecr.io/lrucache-env:latest
+          tags: hiringspacesacr-bdandkgvhgaghjeg.azurecr.io/lrucache-dotnet:latest
