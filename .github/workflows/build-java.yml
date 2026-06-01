@@ -36,4 +36,4 @@ jobs:
           context: .
           file: Dockerfile.java
           push: true
-          tags: hiringspacesacr-bdandkgvhgaghjeg.azurecr.io/lrucache-java:latest
+          tags: hiringspacesacr.azurecr.io/lrucache-java:latest

@@ -36,4 +36,4 @@ jobs:
           context: .
           file: Dockerfile.dotnet
           push: true
-          tags: hiringspacesacr-bdandkgvhgaghjeg.azurecr.io/lrucache-dotnet:latest
+          tags: hiringspacesacr.azurecr.io/lrucache-dotnet:latest

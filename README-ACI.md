@@ -229,3 +229,8 @@ az role assignment create \
   --assignee e20aca50-2f65-466a-b28f-9dfd6cd5db1a \
   --role AcrPull \
   --scope $(az acr show -n hiringspacesacr --query id -o tsv)
+
+az role assignment create \
+  --assignee e20aca50-2f65-466a-b28f-9dfd6cd5db1a \
+  --role Reader \
+  --scope $(az acr show -n hiringspacesacr --query id -o tsv)
