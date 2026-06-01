@@ -1,3 +1,10 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# HiringSpaces — Interview Environment
+# Base: code-server (VS Code in browser) + Java 21 + .NET 8
+# Target: Azure Container Registry → Azure Container Instances
+# Cold-start goal: < 60 seconds to a live VS Code session
+# ─────────────────────────────────────────────────────────────────────────────
+
 FROM codercom/code-server:4.89.1
 
 # Switch to root to install system packages
@@ -11,17 +18,30 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # ── Java 21 (Temurin) ─────────────────────────────────────────────────────────
-RUN wget -qO - https://packages.adoptium.net/artifactory/api/gpg/key/public | \
-    gpg --dearmor -o /etc/apt/trusted.gpg.d/adoptium.gpg && \
+RUN wget -qO - https://packages.adoptium.net/artifactory/api/gpg/key/public \
+      | gpg --dearmor -o /etc/apt/trusted.gpg.d/adoptium.gpg && \
     echo "deb https://packages.adoptium.net/artifactory/deb $(. /etc/os-release && echo $VERSION_CODENAME) main" \
-    > /etc/apt/sources.list.d/adoptium.list && \
+      > /etc/apt/sources.list.d/adoptium.list && \
     apt-get update && apt-get install -y --no-install-recommends \
     temurin-21-jdk \
     && rm -rf /var/lib/apt/lists/*
 
 ENV JAVA_HOME=/usr/lib/jvm/temurin-21-amd64
+ENV PATH="$JAVA_HOME/bin:$PATH"
 
-# ── Pre-warm NuGet & Maven caches (speeds up first build inside session) ──────
+# ── .NET 8 ────────────────────────────────────────────────────────────────────
+RUN wget -qO /tmp/dotnet-install.sh https://dot.net/v1/dotnet-install.sh && \
+    chmod +x /tmp/dotnet-install.sh && \
+    /tmp/dotnet-install.sh --channel 8.0 --install-dir /usr/share/dotnet && \
+    ln -sf /usr/share/dotnet/dotnet /usr/local/bin/dotnet && \
+    rm /tmp/dotnet-install.sh
+
+ENV DOTNET_ROOT=/usr/share/dotnet
+ENV PATH="$DOTNET_ROOT:$PATH"
+ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
+ENV DOTNET_NOLOGO=1
+
+# ── Pre-warm NuGet & Maven caches (speeds up first build inside session) ───────
 # Clone the repo during build so the image already has the code
 ARG REPO_URL=https://github.com/hiringspaces-public/lrucache-aci.git
 ARG REPO_BRANCH=main
@@ -42,9 +62,9 @@ RUN export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java)))) && \
     dotnet restore ./DotNet/LruCache.sln && \
     mvn dependency:resolve -f ./Java/pom.xml -q
 
+
 # ── VS Code extensions (installed at image build time) ────────────────────────
 USER coder
-
 RUN code-server --install-extension vscjava.vscode-java-pack \
                 --install-extension ms-dotnettools.csharp \
                 --install-extension ms-dotnettools.csdevkit \
@@ -62,11 +82,10 @@ COPY --chown=coder:coder workspace.code-workspace /home/coder/workspace/lrucache
 
 # ── Entrypoint ────────────────────────────────────────────────────────────────
 COPY --chown=coder:coder scripts/start.sh /usr/local/bin/start.sh
-
 USER root
 RUN chmod +x /usr/local/bin/start.sh
-
 USER coder
+
 EXPOSE 8080
 
 ENTRYPOINT ["/usr/local/bin/start.sh"]
