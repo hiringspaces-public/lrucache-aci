@@ -226,11 +226,19 @@ create MI
 az identity create --name hs-aci-identity --resource-group Hiringspaces
 
 az role assignment create \
-  --assignee e20aca50-2f65-466a-b28f-9dfd6cd5db1a \
+  --assignee e31b2e4e-e8fb-4dca-a54d-125db305b545 \
   --role AcrPull \
   --scope $(az acr show -n hiringspacesacr --query id -o tsv)
 
 az role assignment create \
-  --assignee e20aca50-2f65-466a-b28f-9dfd6cd5db1a \
+  --assignee e31b2e4e-e8fb-4dca-a54d-125db305b545 \
   --role Reader \
   --scope $(az acr show -n hiringspacesacr --query id -o tsv)
+
+
+  az role assignment list \
+  --subscription "c674247f-9138-4470-9583-4f10b8076c8f" \
+  --assignee "e20aca50-2f65-466a-b28f-9dfd6cd5db1a" \
+  --output table
+
+  az role assignment create   --assignee e31b2e4e-e8fb-4dca-a54d-125db305b545   --role Contributor   --scope /subscriptions/c674247f-9138-4470-9583-4f10b8076c8f
