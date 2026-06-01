@@ -25,10 +25,10 @@ log "Session: CANDIDATE_ID=${CANDIDATE_ID:-unknown}"
 # ── 3. Optionally set a per-session workspace password ───────────────────────
 # If SESSION_TOKEN is set, use it as the code-server password so the backend
 # can proxy requests with token-based auth.
-if [[ -n "${SESSION_TOKEN:-}" ]]; then
-    sed -i "s/^auth: none/auth: password/" /home/coder/.config/code-server/config.yaml
-    sed -i "s/^password: .*/password: \"${SESSION_TOKEN}\"/" /home/coder/.config/code-server/config.yaml
-    log "Session token auth enabled"
+#if [[ -n "${SESSION_TOKEN:-}" ]]; then
+#    sed -i "s/^auth: none/auth: password/" /home/coder/.config/code-server/config.yaml
+#    sed -i "s/^password: .*/password: \"${SESSION_TOKEN}\"/" /home/coder/.config/code-server/config.yaml
+#    log "Session token auth enabled"
 fi
 
 # ── 4. Background: pre-build both projects (warms JVM/CLR, faster first run) ─
