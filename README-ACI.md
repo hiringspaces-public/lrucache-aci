@@ -218,3 +218,14 @@ contact [ ~ ]$ az ad app federated-credential create \
   --scope "$ACR_ID"
 
   needed acrpush and reader permission
+
+creating subscription CI
+az provider register --namespace Microsoft.ContainerInstance --subscription c674247f-9138-4470-9583-4f10b8076c8f
+
+create MI
+az identity create --name hs-aci-identity --resource-group Hiringspaces
+
+az role assignment create \
+  --assignee e20aca50-2f65-466a-b28f-9dfd6cd5db1a \
+  --role AcrPull \
+  --scope $(az acr show -n hiringspacesacr --query id -o tsv)

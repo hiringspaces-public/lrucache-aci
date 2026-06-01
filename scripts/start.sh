@@ -40,7 +40,7 @@ fi
 
 (
     log "Pre-building .NET project..."
-    dotnet build "$WORKSPACE/DotNet/LRUCache.sln" 2>&1 >> "$LOG" || true
+    dotnet build "$WORKSPACE/DotNet/LruCache.sln" 2>&1 >> "$LOG" || true
     log ".NET pre-build done"
 ) &
 
