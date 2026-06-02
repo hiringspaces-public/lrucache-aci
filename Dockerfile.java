@@ -36,9 +36,9 @@ RUN git clone --depth=1 --branch ${REPO_BRANCH} ${REPO_URL} /home/coder/workspac
     chown -R coder:coder /home/coder/workspace
 
 # Runs as root, so re-chown afterward to keep the workspace coder-owned.
-RUN cd /home/coder/workspace && \
-    mvn dependency:resolve -f ./Java/pom.xml -q && \
-    chown -R coder:coder /home/coder/workspace
+RUN export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java)))) && \
+    cd /home/coder/workspace && \
+    mvn dependency:resolve -f ./Java/pom.xml -q
 
 USER coder
 RUN code-server \
