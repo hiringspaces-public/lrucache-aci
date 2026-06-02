@@ -3,7 +3,6 @@
 # via a session token passed in the ACI environment variables.
 bind-addr: 0.0.0.0:8080
 auth: none
-password: ""
 cert: false
 
 # Open the workspace on start
