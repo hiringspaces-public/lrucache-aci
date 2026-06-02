@@ -25,8 +25,11 @@ ARG REPO_BRANCH=main
 RUN git clone --depth=1 --branch ${REPO_BRANCH} ${REPO_URL} /home/coder/workspace && \
     chown -R coder:coder /home/coder/workspace
 
+# Restore runs as root here, so it creates root-owned obj/ dirs. Re-chown
+# afterwards so the coder user can re-restore/build at runtime without EACCES.
 RUN cd /home/coder/workspace && \
-    dotnet restore ./DotNet/LruCache.sln
+    dotnet restore ./DotNet/LruCache.sln && \
+    chown -R coder:coder /home/coder/workspace
 
 USER coder
 RUN code-server \
