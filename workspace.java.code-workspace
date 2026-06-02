@@ -1,0 +1,81 @@
+{
+  "folders": [
+    {
+      "name": "LRU Cache — Interview (Java)",
+      "path": "."
+    }
+  ],
+  "settings": {
+    // ── Java ──────────────────────────────────────────────────────────────────
+    "java.home": "/usr/lib/jvm/temurin-21-amd64",
+    "java.compile.nullAnalysis.mode": "automatic",
+    "java.test.defaultConfig": "Maven",
+    "maven.executable.path": "/usr/local/bin/mvn",
+
+    // ── Editor UX ─────────────────────────────────────────────────────────────
+    "editor.fontSize": 14,
+    "editor.tabSize": 4,
+    "editor.formatOnSave": true,
+    "editor.minimap.enabled": false,
+    "workbench.colorTheme": "Default Dark+",
+    "workbench.startupEditor": "none",
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 1000,
+
+    // ── Terminal ──────────────────────────────────────────────────────────────
+    "terminal.integrated.defaultProfile.linux": "bash",
+    "terminal.integrated.fontSize": 13,
+
+    // ── Explorer ──────────────────────────────────────────────────────────────
+    "explorer.confirmDelete": false,
+    "explorer.confirmDragAndDrop": false,
+
+    // ── Hide everything the candidate shouldn't see ───────────────────────────
+    // The image clones the whole repo; these stay on disk (git pull needs them)
+    // but are hidden from the Explorer so the candidate sees only the Java task.
+    "files.exclude": {
+      "**/.DS_Store": true,
+      ".git": true,
+      ".github": true,
+      ".devcontainer": true,
+      ".gitignore": true,
+      "DotNet": true,
+      "Dockerfile.dotnet": true,
+      "Dockerfile.java": true,
+      "scripts": true,
+      "config.yaml": true,
+      "README-ACI.md": true,
+      "lrucache.code-workspace": true
+    },
+
+    // ── Draw.io ───────────────────────────────────────────────────────────────
+    "hediet.vscode-drawio.theme": "kennedy"
+  },
+  "extensions": {
+    "recommendations": [
+      "vscjava.vscode-java-pack",
+      "eamodio.gitlens",
+      "hediet.vscode-drawio",
+      "pomdtr.excalidraw"
+    ]
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Java: Build",
+        "type": "shell",
+        "command": "mvn install -f Java/pom.xml",
+        "group": "build",
+        "presentation": { "reveal": "always", "panel": "shared" }
+      },
+      {
+        "label": "Java: Test",
+        "type": "shell",
+        "command": "mvn test -f Java/pom.xml",
+        "group": "test",
+        "presentation": { "reveal": "always", "panel": "shared" }
+      }
+    ]
+  }
+}

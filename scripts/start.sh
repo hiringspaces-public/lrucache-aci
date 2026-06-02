@@ -41,15 +41,23 @@ fi
 
 log "Session: CANDIDATE_ID=${CANDIDATE_ID:-unknown}"
 
-# Optional pre-build. Backgrounded and memory-capped so it can NEVER take down
+# Optional pre-build. Auto-detects the stack so one start.sh works for both the
+# .NET and Java images. Backgrounded and memory-capped so it can NEVER take down
 # code-server (PID 1). Skip entirely on small instances by setting SKIP_PREBUILD=1.
 if [[ "${SKIP_PREBUILD:-0}" != "1" ]]; then
 (
-    log "Pre-building .NET project..."
-    DOTNET_GCHeapHardLimit=0xC0000000 \
-        dotnet build "$WORKSPACE/DotNet/LruCache.sln" -m:1 >> "$LOG" 2>&1 \
-        || log "WARN: pre-build failed (candidate can still build manually)"
-    log ".NET pre-build done"
+    if command -v dotnet >/dev/null && [[ -f "$WORKSPACE/DotNet/LruCache.sln" ]]; then
+        log "Pre-building .NET project..."
+        DOTNET_GCHeapHardLimit=0xC0000000 \
+            dotnet build "$WORKSPACE/DotNet/LruCache.sln" -m:1 >> "$LOG" 2>&1 \
+            || log "WARN: .NET pre-build failed (candidate can still build manually)"
+        log ".NET pre-build done"
+    elif command -v mvn >/dev/null && [[ -f "$WORKSPACE/Java/pom.xml" ]]; then
+        log "Pre-building Java project..."
+        mvn -q -f "$WORKSPACE/Java/pom.xml" install -DskipTests >> "$LOG" 2>&1 \
+            || log "WARN: Java pre-build failed (candidate can still build manually)"
+        log "Java pre-build done"
+    fi
 ) &
 fi
 
@@ -60,6 +68,14 @@ if [[ -z "$CODE_SERVER" ]]; then
 fi
 
 log "Starting code-server on :8080..."
+# Open the baked .code-workspace file (per-language settings + files.exclude that
+# hides the other language and infra files). Fall back to the folder if missing.
+WORKSPACE_FILE="$WORKSPACE/lrucache.code-workspace"
+if [[ -f "$WORKSPACE_FILE" ]]; then
+    OPEN_TARGET="$WORKSPACE_FILE"
+else
+    OPEN_TARGET="$WORKSPACE"
+fi
 exec "$CODE_SERVER" \
     --config /home/coder/.config/code-server/config.yaml \
-    "$WORKSPACE"
+    "$OPEN_TARGET"

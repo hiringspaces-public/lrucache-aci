@@ -48,7 +48,7 @@ RUN code-server \
 
 RUN mkdir -p /home/coder/.config/code-server
 COPY --chown=coder:coder config.yaml /home/coder/.config/code-server/config.yaml
-COPY --chown=coder:coder workspace.code-workspace /home/coder/workspace/lrucache.code-workspace
+COPY --chown=coder:coder workspace.java.code-workspace /home/coder/workspace/lrucache.code-workspace
 COPY --chown=coder:coder scripts/start.sh /usr/local/bin/start.sh
 
 USER root
