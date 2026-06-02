@@ -46,3 +46,4 @@ mvnw.cmd
 *.tmp
 *.swp
 *.class
+*.code-workspace
