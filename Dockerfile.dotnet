@@ -31,11 +31,16 @@ RUN cd /home/coder/workspace && \
     dotnet restore ./DotNet/LruCache.sln && \
     chown -R coder:coder /home/coder/workspace
 
+COPY --chown=coder:coder extensions/hiringspaces-0.0.1.vsix /tmp/hiringspaces.vsix
+
 USER coder
 RUN code-server \
     --install-extension ms-dotnettools.csharp \
     --install-extension hediet.vscode-drawio \
+    --install-extension /tmp/hiringspaces.vsix \
     || true
+
+RUN rm /tmp/hiringspaces.vsix
 
 RUN mkdir -p /home/coder/.config/code-server
 COPY --chown=coder:coder config.yaml /home/coder/.config/code-server/config.yaml

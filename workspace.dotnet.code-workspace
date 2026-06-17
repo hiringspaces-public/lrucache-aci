@@ -16,7 +16,7 @@
     "editor.tabSize": 4,
     "editor.formatOnSave": true,
     "editor.minimap.enabled": false,
-    "workbench.colorTheme": "Default Dark+",
+    "workbench.colorTheme": "Dark+",
     "workbench.startupEditor": "none",
     "files.autoSave": "afterDelay",
     "files.autoSaveDelay": 1000,
