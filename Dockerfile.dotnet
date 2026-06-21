@@ -36,7 +36,7 @@ COPY --chown=coder:coder extensions/hiringspaces-0.0.1.vsix /tmp/hiringspaces.vs
 USER coder
 RUN code-server \
     --install-extension ms-dotnettools.csharp \
-    --install-extension ms-dotnettools.csdevkit \
+    --install-extension formulahendry.dotnet-test-explorer \
     --install-extension /tmp/hiringspaces.vsix \
     || true
 

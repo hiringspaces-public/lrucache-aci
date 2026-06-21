@@ -53,7 +53,7 @@
   "extensions": {
     "recommendations": [
       "ms-dotnettools.csharp",
-      "ms-dotnettools.csdevkit",
+      "formulahendry.dotnet-test-explorer",
       "eamodio.gitlens",
       "hediet.vscode-drawio",
       "pomdtr.excalidraw"
